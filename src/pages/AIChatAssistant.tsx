@@ -4,7 +4,18 @@ import { Zap, Send, User, Bot, Loader2, Trash2, Sparkles } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { GoogleGenAI } from "@google/genai";
 
-const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
+let aiInstance: GoogleGenAI | null = null;
+
+const getAI = () => {
+  if (!aiInstance) {
+    const apiKey = process.env.GEMINI_API_KEY;
+    if (!apiKey) {
+      throw new Error("GEMINI_API_KEY is not set. Please add it to your environment variables.");
+    }
+    aiInstance = new GoogleGenAI({ apiKey });
+  }
+  return aiInstance;
+};
 
 interface Message {
   id: string;
@@ -42,6 +53,7 @@ export default function AIChatAssistant() {
     setIsTyping(true);
 
     try {
+      const ai = getAI();
       const response = await ai.models.generateContent({
         model: "gemini-3-flash-preview",
         contents: [
