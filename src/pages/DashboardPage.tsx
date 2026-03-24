@@ -3,29 +3,27 @@ import { DashboardHeader, InsightCard, PlayerRow } from '@/src/components/Dashbo
 import { Player, Team } from '@/src/types';
 import { Trophy, TrendingUp, Zap, Users, BarChart3, Settings, Loader2, Link as LinkIcon } from 'lucide-react';
 import { useAuth } from '@/src/contexts/AuthContext';
-import { Navigate, Link } from 'react-router-dom';
-
-const MOCK_TEAM: Team = {
-  id: '1',
-  name: 'THE TOUCHDOWN KINGS',
-  ownerId: 'demo-user-123',
-  totalPoints: 442.5,
-  players: [
-    { id: 'p1', name: 'Patrick Mahomes', position: 'QB', team: 'KC', projectedPoints: 22.4, status: 'Healthy' },
-    { id: 'p2', name: 'Christian McCaffrey', position: 'RB', team: 'SF', projectedPoints: 19.8, status: 'Healthy' },
-    { id: 'p3', name: 'Justin Jefferson', position: 'WR', team: 'MIN', projectedPoints: 18.2, status: 'Questionable' },
-    { id: 'p4', name: 'Travis Kelce', position: 'TE', team: 'KC', projectedPoints: 14.5, status: 'Healthy' },
-    { id: 'p5', name: 'Breece Hall', position: 'RB', team: 'NYJ', projectedPoints: 16.2, status: 'Healthy' },
-  ]
-};
+import { useLeague } from '@/src/contexts/LeagueContext';
+import { Navigate, Link, useNavigate } from 'react-router-dom';
 
 export default function DashboardPage() {
-  const { user, loading, signOut } = useAuth();
+  const { user, loading, signOut, signIn } = useAuth();
+  const { syncedTeam, isSynced } = useLeague();
+  const navigate = useNavigate();
 
-  if (loading) {
+  React.useEffect(() => {
+    if (!loading && !user) {
+      signIn();
+    }
+  }, [loading, user, signIn]);
+
+  if (loading || !syncedTeam) {
     return (
       <div className="min-h-screen bg-primary flex items-center justify-center">
-        <Loader2 className="w-8 h-8 text-accent animate-spin" />
+        <div className="flex flex-col items-center gap-4">
+          <Loader2 className="w-10 h-10 text-accent animate-spin" />
+          <p className="text-white/30 text-xs font-black uppercase tracking-widest animate-pulse">Initializing Gridiron AI...</p>
+        </div>
       </div>
     );
   }
@@ -69,33 +67,35 @@ export default function DashboardPage() {
 
       {/* Main Content */}
       <main className="flex-1 p-6 md:p-10 overflow-y-auto">
-        <DashboardHeader team={MOCK_TEAM} />
+        <DashboardHeader team={syncedTeam} />
         
         {/* League Sync Banner */}
-        <section className="mb-8 p-6 rounded-3xl bg-accent text-primary flex flex-col md:flex-row items-center justify-between gap-6 neon-glow">
-          <div className="flex items-center gap-6">
-            <div className="w-16 h-16 rounded-2xl bg-primary/10 border border-primary/20 flex items-center justify-center shrink-0">
-              <LinkIcon className="w-8 h-8" />
+        {!isSynced && (
+          <section className="mb-8 p-6 rounded-3xl bg-accent text-primary flex flex-col md:flex-row items-center justify-between gap-6 neon-glow">
+            <div className="flex items-center gap-6">
+              <div className="w-16 h-16 rounded-2xl bg-primary/10 border border-primary/20 flex items-center justify-center shrink-0">
+                <LinkIcon className="w-8 h-8" />
+              </div>
+              <div>
+                <h2 className="text-2xl font-display font-black uppercase tracking-tighter mb-1">Sync Your Real League</h2>
+                <p className="text-sm font-medium opacity-70">Connect ESPN, Sleeper, or Yahoo for personalized AI advice.</p>
+              </div>
             </div>
-            <div>
-              <h2 className="text-2xl font-display font-black uppercase tracking-tighter mb-1">Sync Your Real League</h2>
-              <p className="text-sm font-medium opacity-70">Connect ESPN, Sleeper, or Yahoo for personalized AI advice.</p>
-            </div>
-          </div>
-          <Link to="/league-sync" className="w-full md:w-auto px-8 py-4 bg-primary text-white rounded-xl font-black uppercase tracking-widest hover:scale-105 transition-transform text-center">
-            Connect Now
-          </Link>
-        </section>
+            <Link to="/league-sync" className="w-full md:w-auto px-8 py-4 bg-primary text-white rounded-xl font-black uppercase tracking-widest hover:scale-105 transition-transform text-center">
+              Connect Now
+            </Link>
+          </section>
+        )}
         
         <div className="grid grid-cols-1 xl:grid-cols-3 gap-8">
           {/* Left Column: Team & Matchup */}
           <div className="xl:col-span-2 space-y-8">
             <section>
               <h2 className="text-lg font-bold mb-4 flex items-center gap-2 uppercase tracking-tight">
-                Current Lineup <span className="text-white/20 text-xs font-normal">(WEEK 4)</span>
+                Current Lineup <span className="text-white/20 text-xs font-normal">(DRAFT PREP 2026)</span>
               </h2>
               <div className="space-y-3">
-                {MOCK_TEAM.players.map(player => (
+                {syncedTeam.players.map(player => (
                   <PlayerRow key={player.id} player={player} />
                 ))}
               </div>

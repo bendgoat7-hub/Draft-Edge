@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { Navbar } from '@/src/components/Landing';
 import { Trophy, Link as LinkIcon, CheckCircle2, AlertCircle, Loader2, ArrowRight } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
+import { useLeague } from '@/src/contexts/LeagueContext';
+import { useNavigate } from 'react-router-dom';
 
 const platforms = [
   { id: 'sleeper', name: 'Sleeper', icon: 'https://sleeper.com/images/v2/logos/sleeper_logo_white.png', color: 'bg-[#00CEB8]' },
@@ -11,6 +13,8 @@ const platforms = [
 ];
 
 export default function LeagueSync() {
+  const { syncLeague } = useLeague();
+  const navigate = useNavigate();
   const [step, setStep] = useState(1);
   const [selectedPlatform, setSelectedPlatform] = useState<string | null>(null);
   const [leagueId, setLeagueId] = useState('');
@@ -23,13 +27,16 @@ export default function LeagueSync() {
   };
 
   const handleSync = async () => {
-    if (!leagueId) return;
+    if (!leagueId || !selectedPlatform) return;
     setIsSyncing(true);
-    // Simulate API call to fetch league data
-    await new Promise(resolve => setTimeout(resolve, 2500));
-    setIsSyncing(false);
-    setSyncSuccess(true);
-    setStep(3);
+    try {
+      await syncLeague(selectedPlatform, leagueId);
+      setIsSyncing(false);
+      setSyncSuccess(true);
+      setStep(3);
+    } catch (error) {
+      setIsSyncing(false);
+    }
   };
 
   return (
@@ -154,7 +161,7 @@ export default function LeagueSync() {
                 </p>
                 <div className="flex flex-col gap-4">
                   <button 
-                    onClick={() => window.location.href = '/dashboard'}
+                    onClick={() => navigate('/dashboard')}
                     className="w-full py-4 rounded-xl bg-accent text-primary font-black uppercase tracking-widest hover:scale-[1.02] transition-transform"
                   >
                     Go to Dashboard

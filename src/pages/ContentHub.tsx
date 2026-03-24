@@ -9,7 +9,7 @@ const articles = [
     title: 'Top 5 Waiver Wire Pickups for Week 4',
     excerpt: 'Injuries are piling up. Here are the players you need to target to save your season...',
     author: 'Fantasy Guru',
-    date: 'Oct 24, 2026',
+    date: 'Mar 23, 2026',
     readTime: '5 min read',
     image: 'https://picsum.photos/seed/football1/800/400'
   },
@@ -18,7 +18,7 @@ const articles = [
     title: 'The AI Guide to Perfect Start/Sit Decisions',
     excerpt: 'Stop relying on gut feelings. Learn how our AI analyzes matchups to give you the best projections...',
     author: 'Data Scientist',
-    date: 'Oct 22, 2026',
+    date: 'Mar 22, 2026',
     readTime: '8 min read',
     image: 'https://picsum.photos/seed/football2/800/400'
   },
@@ -27,7 +27,7 @@ const articles = [
     title: 'Trade Value Chart: Week 4 Edition',
     excerpt: 'Who is rising? Who is falling? Check out our updated trade value chart before you hit accept...',
     author: 'Trade Expert',
-    date: 'Oct 21, 2026',
+    date: 'Mar 21, 2026',
     readTime: '12 min read',
     image: 'https://picsum.photos/seed/football3/800/400'
   }

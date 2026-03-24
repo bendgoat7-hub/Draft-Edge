@@ -42,26 +42,30 @@ export default function ToolsPage() {
         
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {tools.map((tool, i) => (
-            <motion.div 
-              key={tool.id}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: i * 0.1 }}
-              className="group p-8 rounded-3xl bg-card border border-border hover:border-accent/50 transition-all cursor-pointer relative overflow-hidden"
+            <Link 
+              key={tool.id} 
+              to={tool.path}
+              className="block group"
             >
-              <Link to={tool.path} className="absolute inset-0 z-10" />
-              {tool.premium && (
-                <div className="absolute top-4 right-4 px-2 py-1 bg-accent/20 text-accent text-[8px] font-black uppercase tracking-widest rounded">PRO</div>
-              )}
-              <div className="w-14 h-14 bg-white/5 rounded-2xl flex items-center justify-center mb-6 group-hover:bg-accent group-hover:text-primary transition-colors">
-                {React.cloneElement(tool.icon as React.ReactElement<any>, { className: "w-7 h-7" })}
-              </div>
-              <h3 className="text-2xl font-bold mb-3">{tool.title}</h3>
-              <p className="text-white/50 text-sm leading-relaxed mb-8">{tool.desc}</p>
-              <button className="w-full py-3 rounded-xl bg-white/5 border border-white/10 text-xs font-black uppercase tracking-widest group-hover:bg-accent group-hover:text-primary group-hover:border-accent transition-all">
-                Launch Tool
-              </button>
-            </motion.div>
+              <motion.div 
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: i * 0.1 }}
+                className="h-full p-8 rounded-3xl bg-card border border-border group-hover:border-accent/50 transition-all relative overflow-hidden"
+              >
+                {tool.premium && (
+                  <div className="absolute top-4 right-4 px-2 py-1 bg-accent/20 text-accent text-[8px] font-black uppercase tracking-widest rounded">PRO</div>
+                )}
+                <div className="w-14 h-14 bg-white/5 rounded-2xl flex items-center justify-center mb-6 group-hover:bg-accent group-hover:text-primary transition-colors">
+                  {React.cloneElement(tool.icon as React.ReactElement<any>, { className: "w-7 h-7" })}
+                </div>
+                <h3 className="text-2xl font-bold mb-3">{tool.title}</h3>
+                <p className="text-white/50 text-sm leading-relaxed mb-8">{tool.desc}</p>
+                <div className="w-full py-3 rounded-xl bg-white/5 border border-white/10 text-xs font-black uppercase tracking-widest group-hover:bg-accent group-hover:text-primary group-hover:border-accent transition-all text-center">
+                  Launch Tool
+                </div>
+              </motion.div>
+            </Link>
           ))}
         </div>
       </main>

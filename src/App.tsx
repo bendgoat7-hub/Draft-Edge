@@ -27,36 +27,39 @@ import RosterHealth from '@/src/pages/RosterHealth';
 import LiveDraftRoom from '@/src/pages/LiveDraftRoom';
 import MarketValueTrends from '@/src/pages/MarketValueTrends';
 import { AuthProvider } from '@/src/contexts/AuthContext';
+import { LeagueProvider } from '@/src/contexts/LeagueContext';
 
 export default function App() {
   return (
     <AuthProvider>
-      <Router>
-        <Routes>
-          <Route path="/" element={<LandingPage />} />
-          <Route path="/dashboard" element={<DashboardPage />} />
-          <Route path="/tools" element={<ToolsPage />} />
-          <Route path="/trade-analyzer" element={<TradeAnalyzer />} />
-          <Route path="/draft-assistant" element={<DraftAssistant />} />
-          <Route path="/player-comparison" element={<PlayerComparison />} />
-          <Route path="/waiver-finder" element={<WaiverFinder />} />
-          <Route path="/start-sit" element={<StartSitOptimizer />} />
-          <Route path="/rankings" element={<WeeklyRankings />} />
-          <Route path="/dfs-optimizer" element={<DFSLineupOptimizer />} />
-          <Route path="/injury-tracker" element={<InjuryTracker />} />
-          <Route path="/sos" element={<StrengthOfSchedule />} />
-          <Route path="/playoff-predictor" element={<PlayoffPredictor />} />
-          <Route path="/dynasty-calculator" element={<DynastyCalculator />} />
-          <Route path="/prop-analyzer" element={<PropAnalyzer />} />
-          <Route path="/league-sync" element={<LeagueSync />} />
-          <Route path="/ai-chat" element={<AIChatAssistant />} />
-          <Route path="/weather" element={<WeatherImpactMap />} />
-          <Route path="/roster-health" element={<RosterHealth />} />
-          <Route path="/draft-room" element={<LiveDraftRoom />} />
-          <Route path="/market-trends" element={<MarketValueTrends />} />
-          <Route path="/content" element={<ContentHub />} />
-        </Routes>
-      </Router>
+      <LeagueProvider>
+        <Router>
+          <Routes>
+            <Route path="/" element={<LandingPage />} />
+            <Route path="/dashboard" element={<DashboardPage />} />
+            <Route path="/tools" element={<ToolsPage />} />
+            <Route path="/trade-analyzer" element={<TradeAnalyzer />} />
+            <Route path="/draft-assistant" element={<DraftAssistant />} />
+            <Route path="/player-comparison" element={<PlayerComparison />} />
+            <Route path="/waiver-finder" element={<WaiverFinder />} />
+            <Route path="/start-sit" element={<StartSitOptimizer />} />
+            <Route path="/rankings" element={<WeeklyRankings />} />
+            <Route path="/dfs-optimizer" element={<DFSLineupOptimizer />} />
+            <Route path="/injury-tracker" element={<InjuryTracker />} />
+            <Route path="/sos" element={<StrengthOfSchedule />} />
+            <Route path="/playoff-predictor" element={<PlayoffPredictor />} />
+            <Route path="/dynasty-calculator" element={<DynastyCalculator />} />
+            <Route path="/prop-analyzer" element={<PropAnalyzer />} />
+            <Route path="/league-sync" element={<LeagueSync />} />
+            <Route path="/ai-chat" element={<AIChatAssistant />} />
+            <Route path="/weather" element={<WeatherImpactMap />} />
+            <Route path="/roster-health" element={<RosterHealth />} />
+            <Route path="/draft-room" element={<LiveDraftRoom />} />
+            <Route path="/market-trends" element={<MarketValueTrends />} />
+            <Route path="/content" element={<ContentHub />} />
+          </Routes>
+        </Router>
+      </LeagueProvider>
     </AuthProvider>
   );
 }

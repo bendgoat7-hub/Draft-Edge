@@ -37,6 +37,9 @@ export default function MarketValueTrends() {
             <h1 className="text-5xl font-display font-black tracking-tighter uppercase">
               PLAYER <span className="text-accent italic">TRENDS</span>
             </h1>
+            <p className="text-white/30 text-[10px] font-black uppercase tracking-widest mt-2">
+              Last Updated: Mar 23, 2026 • 09:00 AM EST
+            </p>
           </div>
           
           <div className="flex gap-4">

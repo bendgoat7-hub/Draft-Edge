@@ -10,7 +10,11 @@ export const DashboardHeader = ({ team }: { team: Team }) => (
       <h1 className="text-3xl font-display font-black tracking-tighter uppercase mb-1">
         {team.name} <span className="text-accent italic">DASHBOARD</span>
       </h1>
-      <p className="text-white/50 text-sm">Week 4 Matchup vs. The Commish</p>
+      <div className="flex items-center gap-2 text-white/50 text-xs font-bold uppercase tracking-wider">
+        <span>Week 4 Matchup vs. The Commish</span>
+        <span className="w-1 h-1 rounded-full bg-white/20" />
+        <span className="text-accent/70">Last Updated: Mar 23, 2026</span>
+      </div>
     </div>
     <div className="flex items-center gap-3">
       <div className="glass px-4 py-2 rounded-xl flex items-center gap-2">
