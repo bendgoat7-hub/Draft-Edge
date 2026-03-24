@@ -16,11 +16,11 @@ const DEFAULT_TEAM: Team = {
   ownerId: 'demo-user-123',
   totalPoints: 442.5,
   players: [
-    { id: 'p1', name: 'Patrick Mahomes', position: 'QB', team: 'KC', projectedPoints: 22.4, status: 'Healthy' },
-    { id: 'p2', name: 'Christian McCaffrey', position: 'RB', team: 'SF', projectedPoints: 19.8, status: 'Healthy' },
-    { id: 'p3', name: 'Justin Jefferson', position: 'WR', team: 'MIN', projectedPoints: 18.2, status: 'Questionable' },
-    { id: 'p4', name: 'Travis Kelce', position: 'TE', team: 'KC', projectedPoints: 14.5, status: 'Healthy' },
-    { id: 'p5', name: 'Breece Hall', position: 'RB', team: 'NYJ', projectedPoints: 16.2, status: 'Healthy' },
+    { id: 'p1', name: 'Patrick Mahomes', position: 'QB', team: 'KC', projectedPoints: 23.5, status: 'Healthy' },
+    { id: 'p2', name: 'Christian McCaffrey', position: 'RB', team: 'SF', projectedPoints: 24.5, status: 'Healthy' },
+    { id: 'p3', name: 'Justin Jefferson', position: 'WR', team: 'MIN', projectedPoints: 21.2, status: 'Healthy' },
+    { id: 'p4', name: 'Travis Kelce', position: 'TE', team: 'KC', projectedPoints: 15.8, status: 'Healthy' },
+    { id: 'p5', name: 'Breece Hall', position: 'RB', team: 'NYJ', projectedPoints: 20.5, status: 'Healthy' },
   ]
 };
 

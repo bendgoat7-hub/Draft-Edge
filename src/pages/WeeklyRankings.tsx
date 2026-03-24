@@ -5,15 +5,19 @@ import { motion } from 'motion/react';
 
 const mockRankings = [
   { id: 1, rank: 1, player: 'Christian McCaffrey', pos: 'RB', team: 'SF', opp: 'vs ARI', proj: '24.5', trend: 'up' },
-  { id: 2, rank: 2, player: 'Justin Jefferson', pos: 'WR', team: 'MIN', opp: '@ GB', proj: '22.8', trend: 'up' },
-  { id: 3, rank: 3, player: 'Tyreek Hill', pos: 'WR', team: 'MIA', opp: 'vs TEN', proj: '21.4', trend: 'down' },
-  { id: 4, rank: 4, player: 'Breece Hall', pos: 'RB', team: 'NYJ', opp: 'vs DEN', proj: '20.2', trend: 'up' },
-  { id: 5, rank: 5, player: 'CeeDee Lamb', pos: 'WR', team: 'DAL', opp: '@ PHI', proj: '19.8', trend: 'down' },
-  { id: 6, rank: 6, player: 'Saquon Barkley', pos: 'RB', team: 'PHI', opp: 'vs DAL', proj: '18.4', trend: 'up' },
-  { id: 7, rank: 7, player: 'Amon-Ra St. Brown', pos: 'WR', team: 'DET', opp: 'vs SEA', proj: '17.9', trend: 'up' },
-  { id: 8, rank: 8, player: 'Josh Allen', pos: 'QB', team: 'BUF', opp: '@ BAL', proj: '23.5', trend: 'down' },
-  { id: 9, rank: 9, player: 'Bijan Robinson', pos: 'RB', team: 'ATL', opp: 'vs NO', proj: '16.8', trend: 'up' },
-  { id: 10, rank: 10, player: 'Travis Kelce', pos: 'TE', team: 'KC', opp: '@ LAC', proj: '15.2', trend: 'down' },
+  { id: 2, rank: 2, player: 'CeeDee Lamb', pos: 'WR', team: 'DAL', opp: '@ PHI', proj: '22.8', trend: 'up' },
+  { id: 3, rank: 3, player: 'Justin Jefferson', pos: 'WR', team: 'MIN', opp: '@ GB', proj: '21.2', trend: 'up' },
+  { id: 4, rank: 4, player: 'Breece Hall', pos: 'RB', team: 'NYJ', opp: 'vs DEN', proj: '20.5', trend: 'up' },
+  { id: 5, rank: 5, player: 'Tyreek Hill', pos: 'WR', team: 'MIA', opp: 'vs TEN', proj: '21.8', trend: 'down' },
+  { id: 6, rank: 6, player: 'Bijan Robinson', pos: 'RB', team: 'ATL', opp: 'vs NO', proj: '19.7', trend: 'up' },
+  { id: 7, rank: 7, player: 'Ja\'Marr Chase', pos: 'WR', team: 'CIN', opp: '@ PIT', proj: '20.2', trend: 'up' },
+  { id: 8, rank: 8, player: 'Amon-Ra St. Brown', pos: 'WR', team: 'DET', opp: 'vs SEA', proj: '19.5', trend: 'up' },
+  { id: 9, rank: 9, player: 'Saquon Barkley', pos: 'RB', team: 'PHI', opp: 'vs DAL', proj: '18.8', trend: 'up' },
+  { id: 10, rank: 10, player: 'Garrett Wilson', pos: 'WR', team: 'NYJ', opp: 'vs DEN', proj: '18.2', trend: 'up' },
+  { id: 11, rank: 11, player: 'Josh Allen', pos: 'QB', team: 'BUF', opp: '@ BAL', proj: '24.2', trend: 'down' },
+  { id: 12, rank: 12, player: 'Patrick Mahomes', pos: 'QB', team: 'KC', opp: '@ LAC', proj: '23.5', trend: 'up' },
+  { id: 13, rank: 13, player: 'Travis Kelce', pos: 'TE', team: 'KC', opp: '@ LAC', proj: '15.8', trend: 'down' },
+  { id: 14, rank: 14, player: 'Sam LaPorta', pos: 'TE', team: 'DET', opp: 'vs SEA', proj: '15.2', trend: 'up' },
 ];
 
 export default function WeeklyRankings() {

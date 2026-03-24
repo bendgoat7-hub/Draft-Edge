@@ -5,11 +5,21 @@ import { Users, Zap, Trophy, Search, Filter, ChevronRight } from 'lucide-react';
 import { cn } from '@/src/lib/utils';
 
 const MOCK_PLAYERS = [
-  { id: '1', name: 'Ja\'Marr Chase', pos: 'WR', team: 'CIN', adp: 4.2, proj: 18.4, tier: 1 },
-  { id: '2', name: 'Amon-Ra St. Brown', pos: 'WR', team: 'DET', adp: 6.8, proj: 17.9, tier: 1 },
-  { id: '3', name: 'Saquon Barkley', pos: 'RB', team: 'PHI', adp: 12.4, proj: 16.5, tier: 2 },
-  { id: '4', name: 'Garrett Wilson', pos: 'WR', team: 'NYJ', adp: 14.1, proj: 15.8, tier: 2 },
-  { id: '5', name: 'Jahmyr Gibbs', pos: 'RB', team: 'DET', adp: 15.5, proj: 15.2, tier: 2 },
+  { id: '1', name: 'Christian McCaffrey', pos: 'RB', team: 'SF', adp: 1.1, proj: 24.5, tier: 1 },
+  { id: '2', name: 'CeeDee Lamb', pos: 'WR', team: 'DAL', adp: 2.3, proj: 22.8, tier: 1 },
+  { id: '3', name: 'Justin Jefferson', pos: 'WR', team: 'MIN', adp: 3.5, proj: 21.2, tier: 1 },
+  { id: '4', name: 'Breece Hall', pos: 'RB', team: 'NYJ', adp: 4.2, proj: 20.5, tier: 1 },
+  { id: '5', name: 'Tyreek Hill', pos: 'WR', team: 'MIA', adp: 5.1, proj: 21.8, tier: 1 },
+  { id: '6', name: 'Bijan Robinson', pos: 'RB', team: 'ATL', adp: 6.4, proj: 19.7, tier: 1 },
+  { id: '7', name: 'Ja\'Marr Chase', pos: 'WR', team: 'CIN', adp: 7.2, proj: 20.2, tier: 1 },
+  { id: '8', name: 'Amon-Ra St. Brown', pos: 'WR', team: 'DET', adp: 8.5, proj: 19.5, tier: 1 },
+  { id: '9', name: 'Saquon Barkley', pos: 'RB', team: 'PHI', adp: 9.8, proj: 18.8, tier: 2 },
+  { id: '10', name: 'Garrett Wilson', pos: 'WR', team: 'NYJ', adp: 10.5, proj: 18.2, tier: 2 },
+  { id: '11', name: 'Jonathan Taylor', pos: 'RB', team: 'IND', adp: 11.2, proj: 18.5, tier: 2 },
+  { id: '12', name: 'Jahmyr Gibbs', pos: 'RB', team: 'DET', adp: 12.4, proj: 17.8, tier: 2 },
+  { id: '13', name: 'A.J. Brown', pos: 'WR', team: 'PHI', adp: 13.1, proj: 17.5, tier: 2 },
+  { id: '14', name: 'Puka Nacua', pos: 'WR', team: 'LAR', adp: 14.5, proj: 17.2, tier: 2 },
+  { id: '15', name: 'Kyren Williams', pos: 'RB', team: 'LAR', adp: 15.8, proj: 16.8, tier: 2 },
 ];
 
 export default function DraftAssistant() {

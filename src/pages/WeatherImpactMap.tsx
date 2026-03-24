@@ -35,7 +35,7 @@ export default function WeatherImpactMap() {
             </h1>
             <p className="text-white/30 text-[10px] font-black uppercase tracking-widest mt-2 flex items-center gap-2">
               <span className="w-1.5 h-1.5 rounded-full bg-accent animate-pulse" />
-              Live Updates: Mar 23, 2026 • 09:00 AM EST
+              Live Updates: Mar 24, 2026 • 09:00 AM EST
             </p>
           </div>
           
