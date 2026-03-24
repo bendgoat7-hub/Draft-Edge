@@ -1,0 +1,7 @@
+{
+  "name": "GridironAI - Dominate Your Fantasy League",
+  "description": "AI-powered fantasy football platform with live rankings, start/sit optimizer, and winning tools.",
+  "requestFramePermissions": [
+    "geolocation"
+  ]
+}
