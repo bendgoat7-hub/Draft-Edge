@@ -51,13 +51,21 @@ export const Hero = () => (
         <p className="text-lg md:text-xl text-white/60 max-w-2xl mx-auto mb-10 leading-relaxed">
           Stop guessing. Start winning with real-time AI rankings, live matchup insights, and the most advanced trade analyzer in the game.
         </p>
-        <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-12">
           <Link to="/dashboard" className="w-full sm:w-auto bg-accent text-primary px-8 py-4 rounded-full text-lg font-black hover:scale-105 transition-transform neon-glow flex items-center justify-center gap-2">
             START WINNING FREE <Zap className="w-5 h-5 fill-current" />
           </Link>
           <Link to="/trade-analyzer" className="w-full sm:w-auto glass px-8 py-4 rounded-full text-lg font-bold hover:bg-white/10 transition-colors">
             Try Trade Analyzer
           </Link>
+        </div>
+        <div className="flex items-center justify-center gap-4 text-white/40 text-xs font-bold uppercase tracking-widest">
+          <div className="flex -space-x-2">
+            {[1, 2, 3, 4].map(i => (
+              <div key={i} className="w-8 h-8 rounded-full border-2 border-primary bg-white/10" />
+            ))}
+          </div>
+          <span>Join 50,000+ players winning today</span>
         </div>
       </motion.div>
       
