@@ -1,28 +1,16 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { Team, Player } from '@/src/types';
+import { sleeperService } from '@/src/services/sleeper';
 
 interface LeagueContextType {
   syncedTeam: Team | null;
   isSynced: boolean;
-  syncLeague: (platform: string, leagueId: string) => Promise<void>;
+  syncLeague: (platform: string, leagueId: string, username?: string) => Promise<void>;
   updateTeam: (team: Team) => void;
+  refreshLeague: () => Promise<void>;
 }
 
 const LeagueContext = createContext<LeagueContextType | undefined>(undefined);
-
-const DEFAULT_TEAM: Team = {
-  id: '1',
-  name: 'THE TOUCHDOWN KINGS',
-  ownerId: 'demo-user-123',
-  totalPoints: 442.5,
-  players: [
-    { id: 'p1', name: 'Patrick Mahomes', position: 'QB', team: 'KC', projectedPoints: 23.5, status: 'Healthy' },
-    { id: 'p2', name: 'Christian McCaffrey', position: 'RB', team: 'SF', projectedPoints: 24.5, status: 'Healthy' },
-    { id: 'p3', name: 'Justin Jefferson', position: 'WR', team: 'MIN', projectedPoints: 21.2, status: 'Healthy' },
-    { id: 'p4', name: 'Travis Kelce', position: 'TE', team: 'KC', projectedPoints: 15.8, status: 'Healthy' },
-    { id: 'p5', name: 'Breece Hall', position: 'RB', team: 'NYJ', projectedPoints: 20.5, status: 'Healthy' },
-  ]
-};
 
 export const LeagueProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [syncedTeam, setSyncedTeam] = useState<Team | null>(null);
@@ -30,26 +18,60 @@ export const LeagueProvider: React.FC<{ children: React.ReactNode }> = ({ childr
 
   useEffect(() => {
     const saved = localStorage.getItem('gridiron_synced_team');
+    const savedPlatform = localStorage.getItem('gridiron_synced_platform');
     if (saved) {
       setSyncedTeam(JSON.parse(saved));
       setIsSynced(true);
-    } else {
-      // For demo, we can start with the default team if not synced
-      setSyncedTeam(DEFAULT_TEAM);
     }
   }, []);
 
-  const syncLeague = async (platform: string, leagueId: string) => {
-    // Simulate API call to sync league
-    return new Promise<void>((resolve) => {
-      setTimeout(() => {
-        const newTeam = { ...DEFAULT_TEAM, name: `${platform.toUpperCase()} ALL-STARS` };
-        setSyncedTeam(newTeam);
+  const syncLeague = async (platform: string, leagueId: string, username?: string) => {
+    if (platform === 'sleeper' && username) {
+      try {
+        const team = await sleeperService.syncLeague(leagueId, username);
+        setSyncedTeam(team);
         setIsSynced(true);
-        localStorage.setItem('gridiron_synced_team', JSON.stringify(newTeam));
-        resolve();
-      }, 2000);
-    });
+        localStorage.setItem('gridiron_synced_team', JSON.stringify(team));
+        localStorage.setItem('gridiron_synced_platform', platform);
+        localStorage.setItem('gridiron_synced_league_id', leagueId);
+        localStorage.setItem('gridiron_synced_username', username);
+      } catch (error) {
+        console.error('Failed to sync Sleeper league:', error);
+        throw error;
+      }
+    } else {
+      // For other platforms, we currently use mock for demo
+      return new Promise<void>((resolve) => {
+        setTimeout(() => {
+          const mockTeam: Team = {
+            id: leagueId,
+            name: `${platform.toUpperCase()} ALL-STARS`,
+            ownerId: 'demo-user-123',
+            totalPoints: 442.5,
+            players: [
+              { id: 'p1', name: 'Patrick Mahomes', position: 'QB', team: 'KC', projectedPoints: 23.5, status: 'Healthy' },
+              { id: 'p2', name: 'Christian McCaffrey', position: 'RB', team: 'SF', projectedPoints: 24.5, status: 'Healthy' },
+              { id: 'p3', name: 'Justin Jefferson', position: 'WR', team: 'MIN', projectedPoints: 21.2, status: 'Healthy' },
+            ]
+          };
+          setSyncedTeam(mockTeam);
+          setIsSynced(true);
+          localStorage.setItem('gridiron_synced_team', JSON.stringify(mockTeam));
+          localStorage.setItem('gridiron_synced_platform', platform);
+          resolve();
+        }, 1500);
+      });
+    }
+  };
+
+  const refreshLeague = async () => {
+    const platform = localStorage.getItem('gridiron_synced_platform');
+    const leagueId = localStorage.getItem('gridiron_synced_league_id');
+    const username = localStorage.getItem('gridiron_synced_username');
+
+    if (platform === 'sleeper' && leagueId && username) {
+      await syncLeague(platform, leagueId, username);
+    }
   };
 
   const updateTeam = (team: Team) => {
@@ -58,7 +80,7 @@ export const LeagueProvider: React.FC<{ children: React.ReactNode }> = ({ childr
   };
 
   return (
-    <LeagueContext.Provider value={{ syncedTeam, isSynced, syncLeague, updateTeam }}>
+    <LeagueContext.Provider value={{ syncedTeam, isSynced, syncLeague, updateTeam, refreshLeague }}>
       {children}
     </LeagueContext.Provider>
   );

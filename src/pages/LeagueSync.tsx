@@ -18,8 +18,10 @@ export default function LeagueSync() {
   const [step, setStep] = useState(1);
   const [selectedPlatform, setSelectedPlatform] = useState<string | null>(null);
   const [leagueId, setLeagueId] = useState('');
+  const [username, setUsername] = useState('');
   const [isSyncing, setIsSyncing] = useState(false);
   const [syncSuccess, setSyncSuccess] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   const handlePlatformSelect = (id: string) => {
     setSelectedPlatform(id);
@@ -28,14 +30,21 @@ export default function LeagueSync() {
 
   const handleSync = async () => {
     if (!leagueId || !selectedPlatform) return;
+    if (selectedPlatform === 'sleeper' && !username) {
+      setError('Sleeper username is required');
+      return;
+    }
+
     setIsSyncing(true);
+    setError(null);
     try {
-      await syncLeague(selectedPlatform, leagueId);
+      await syncLeague(selectedPlatform, leagueId, username);
       setIsSyncing(false);
       setSyncSuccess(true);
       setStep(3);
-    } catch (error) {
+    } catch (err: any) {
       setIsSyncing(false);
+      setError(err.message || 'Failed to sync league. Please check your ID and username.');
     }
   };
 
@@ -111,15 +120,39 @@ export default function LeagueSync() {
                 </div>
                 
                 <div className="space-y-4">
-                  <input 
-                    type="text" 
-                    placeholder="League ID (e.g. 10485729384)"
-                    value={leagueId}
-                    onChange={(e) => setLeagueId(e.target.value)}
-                    className="w-full px-6 py-4 bg-white/5 border border-white/10 rounded-xl text-center font-mono focus:outline-none focus:border-accent/50"
-                  />
+                  <div className="space-y-2">
+                    <label className="text-[10px] font-black uppercase tracking-widest text-white/30 ml-1">League ID</label>
+                    <input 
+                      type="text" 
+                      placeholder="League ID (e.g. 10485729384)"
+                      value={leagueId}
+                      onChange={(e) => setLeagueId(e.target.value)}
+                      className="w-full px-6 py-4 bg-white/5 border border-white/10 rounded-xl text-center font-mono focus:outline-none focus:border-accent/50"
+                    />
+                  </div>
+
+                  {selectedPlatform === 'sleeper' && (
+                    <div className="space-y-2">
+                      <label className="text-[10px] font-black uppercase tracking-widest text-white/30 ml-1">Sleeper Username</label>
+                      <input 
+                        type="text" 
+                        placeholder="Your Sleeper Username"
+                        value={username}
+                        onChange={(e) => setUsername(e.target.value)}
+                        className="w-full px-6 py-4 bg-white/5 border border-white/10 rounded-xl text-center font-mono focus:outline-none focus:border-accent/50"
+                      />
+                    </div>
+                  )}
+
+                  {error && (
+                    <div className="p-4 rounded-xl bg-red-500/10 border border-red-500/20 flex items-center gap-3 text-red-400 text-xs">
+                      <AlertCircle className="w-4 h-4 shrink-0" />
+                      {error}
+                    </div>
+                  )}
+
                   <button 
-                    disabled={!leagueId || isSyncing}
+                    disabled={!leagueId || (selectedPlatform === 'sleeper' && !username) || isSyncing}
                     onClick={handleSync}
                     className="w-full py-4 rounded-xl bg-accent text-primary font-black uppercase tracking-widest hover:scale-[1.02] transition-transform disabled:opacity-50 disabled:scale-100 flex items-center justify-center gap-3"
                   >

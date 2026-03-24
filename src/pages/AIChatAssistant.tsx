@@ -3,6 +3,7 @@ import { Navbar } from '@/src/components/Landing';
 import { Zap, Send, User, Bot, Loader2, Trash2, Sparkles } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { GoogleGenAI } from "@google/genai";
+import { cn } from '@/src/lib/utils';
 
 let aiInstance: GoogleGenAI | null = null;
 
@@ -53,14 +54,17 @@ export default function AIChatAssistant() {
     setIsTyping(true);
 
     try {
-      const ai = getAI();
+      const apiKey = (import.meta as any).env?.VITE_GEMINI_API_KEY || (process as any).env?.GEMINI_API_KEY;
+      if (!apiKey) throw new Error("API Key missing");
+      
+      const ai = new GoogleGenAI({ apiKey });
       const response = await ai.models.generateContent({
         model: "gemini-3-flash-preview",
         contents: [
-          { role: 'user', parts: [{ text: `You are a world-class fantasy football expert. Answer the following question concisely and with data-driven reasoning: ${input}` }] }
+          { role: 'user', parts: [{ text: input }] }
         ],
         config: {
-          systemInstruction: "You are Gridiron AI, a helpful and expert fantasy football assistant. You provide data-driven advice, considering player stats, matchups, injuries, and trends. Keep responses concise and formatted with markdown for readability.",
+          systemInstruction: "You are Gridiron AI, a world-class fantasy football expert. Provide data-driven advice, considering player stats, matchups, injuries, and trends. Keep responses concise and formatted with markdown for readability. Use a professional yet energetic sports-analyst tone.",
         }
       });
 
@@ -80,78 +84,99 @@ export default function AIChatAssistant() {
   };
 
   return (
-    <div className="min-h-screen bg-primary flex flex-col">
+    <div className="min-h-screen bg-primary grid-bg flex flex-col">
       <Navbar />
       
-      <main className="flex-1 pt-32 pb-6 px-6 max-w-5xl mx-auto w-full flex flex-col">
-        <div className="flex items-center justify-between mb-8">
-          <div className="flex items-center gap-3 text-accent">
-            <Zap className="w-6 h-6" />
-            <h1 className="text-3xl font-display font-black uppercase tracking-tighter">GRIDIRON <span className="italic">AI CHAT</span></h1>
+      <main className="flex-1 pt-32 pb-12 px-6 max-w-5xl mx-auto w-full flex flex-col relative z-10">
+        <div className="flex items-center justify-between mb-12">
+          <div className="flex items-center gap-6">
+            <div className="w-16 h-16 bg-accent rounded-3xl flex items-center justify-center shadow-[0_0_30px_rgba(0,255,102,0.3)] group hover:rotate-12 transition-transform duration-500">
+              <Zap className="text-primary w-8 h-8 fill-current" />
+            </div>
+            <div>
+              <div className="text-accent text-xs font-black uppercase tracking-[0.3em] mb-2">24/7 Consultant</div>
+              <h1 className="text-4xl md:text-6xl font-display font-black uppercase tracking-tighter leading-none">GRIDIRON <span className="text-accent italic">AI CHAT</span></h1>
+            </div>
           </div>
           <button 
             onClick={() => setMessages([{ id: '1', role: 'assistant', content: "Hello! I'm Gridiron AI, your personal fantasy football consultant. Ask me anything about your roster, trade offers, or waiver wire targets." }])}
-            className="p-2 rounded-lg bg-white/5 text-white/30 hover:text-red-400 transition-colors"
+            className="w-14 h-14 rounded-2xl bg-white/5 text-white/20 flex items-center justify-center hover:bg-white/10 hover:text-red-400 transition-all border border-white/5"
           >
-            <Trash2 className="w-5 h-5" />
+            <Trash2 className="w-6 h-6" />
           </button>
         </div>
 
-        <div className="flex-1 bg-card border border-border rounded-3xl overflow-hidden flex flex-col shadow-2xl">
-          <div className="flex-1 overflow-y-auto p-6 space-y-6">
+        <div className="flex-1 glass border-white/5 rounded-[48px] overflow-hidden flex flex-col shadow-[0_40px_100px_rgba(0,0,0,0.6)] relative">
+          <div className="absolute top-0 right-0 w-96 h-96 bg-accent/5 rounded-full blur-[120px] -mr-48 -mt-48 pointer-events-none" />
+          
+          <div className="flex-1 overflow-y-auto p-10 space-y-10 custom-scrollbar">
             <AnimatePresence initial={false}>
               {messages.map((msg) => (
                 <motion.div
                   key={msg.id}
-                  initial={{ opacity: 0, y: 10, scale: 0.95 }}
+                  initial={{ opacity: 0, y: 20, scale: 0.95 }}
                   animate={{ opacity: 1, y: 0, scale: 1 }}
-                  className={`flex items-start gap-4 ${msg.role === 'user' ? 'flex-row-reverse' : ''}`}
+                  className={`flex items-start gap-6 ${msg.role === 'user' ? 'flex-row-reverse' : ''}`}
                 >
-                  <div className={`w-10 h-10 rounded-xl flex items-center justify-center shrink-0 ${msg.role === 'user' ? 'bg-accent text-primary' : 'bg-white/5 text-accent border border-white/10'}`}>
-                    {msg.role === 'user' ? <User className="w-5 h-5" /> : <Bot className="w-5 h-5" />}
+                  <div className={cn(
+                    "w-12 h-12 rounded-2xl flex items-center justify-center shrink-0 shadow-lg border transition-all",
+                    msg.role === 'user' 
+                      ? 'bg-accent text-primary border-accent shadow-[0_0_20px_rgba(0,255,102,0.2)]' 
+                      : 'bg-white/5 text-accent border-white/10'
+                  )}>
+                    {msg.role === 'user' ? <User className="w-6 h-6" /> : <Bot className="w-6 h-6" />}
                   </div>
-                  <div className={`max-w-[80%] p-4 rounded-2xl text-sm leading-relaxed ${msg.role === 'user' ? 'bg-accent/10 text-white border border-accent/20' : 'bg-white/5 text-white/80 border border-white/5'}`}>
+                  <div className={cn(
+                    "max-w-[75%] p-6 rounded-[32px] text-sm leading-relaxed font-medium shadow-xl border",
+                    msg.role === 'user' 
+                      ? 'bg-accent/10 text-white border-accent/20 rounded-tr-none' 
+                      : 'bg-white/5 text-white/80 border-white/5 rounded-tl-none'
+                  )}>
                     {msg.content}
                   </div>
                 </motion.div>
               ))}
             </AnimatePresence>
             {isTyping && (
-              <div className="flex items-start gap-4">
-                <div className="w-10 h-10 rounded-xl bg-white/5 text-accent border border-white/10 flex items-center justify-center">
-                  <Bot className="w-5 h-5" />
+              <div className="flex items-start gap-6">
+                <div className="w-12 h-12 rounded-2xl bg-white/5 text-accent border border-white/10 flex items-center justify-center shadow-lg">
+                  <Bot className="w-6 h-6" />
                 </div>
-                <div className="bg-white/5 p-4 rounded-2xl flex items-center gap-2">
-                  <Loader2 className="w-4 h-4 text-accent animate-spin" />
-                  <span className="text-xs text-white/40 italic">Gridiron AI is thinking...</span>
+                <div className="bg-white/5 p-6 rounded-[32px] rounded-tl-none border border-white/5 flex items-center gap-4 shadow-xl">
+                  <div className="flex gap-1">
+                    <motion.div animate={{ scale: [1, 1.5, 1] }} transition={{ repeat: Infinity, duration: 0.6 }} className="w-1.5 h-1.5 bg-accent rounded-full" />
+                    <motion.div animate={{ scale: [1, 1.5, 1] }} transition={{ repeat: Infinity, duration: 0.6, delay: 0.2 }} className="w-1.5 h-1.5 bg-accent rounded-full" />
+                    <motion.div animate={{ scale: [1, 1.5, 1] }} transition={{ repeat: Infinity, duration: 0.6, delay: 0.4 }} className="w-1.5 h-1.5 bg-accent rounded-full" />
+                  </div>
+                  <span className="text-[10px] font-black text-white/20 uppercase tracking-widest">AI ANALYZING DATA...</span>
                 </div>
               </div>
             )}
             <div ref={messagesEndRef} />
           </div>
 
-          <div className="p-6 bg-white/[0.02] border-t border-white/5">
-            <div className="relative">
+          <div className="p-10 bg-white/[0.02] border-t border-white/5 relative z-10">
+            <div className="relative group">
               <input
                 type="text"
                 placeholder="Ask about trades, start/sit, or draft strategy..."
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 onKeyDown={(e) => e.key === 'Enter' && handleSend()}
-                className="w-full bg-white/5 border border-white/10 rounded-2xl py-4 pl-6 pr-16 text-sm focus:outline-none focus:border-accent/50 transition-all"
+                className="w-full bg-white/5 border border-white/10 rounded-3xl py-6 pl-8 pr-20 text-sm font-medium focus:outline-none focus:border-accent/50 transition-all placeholder:text-white/10 group-hover:bg-white/[0.08]"
               />
               <button
                 onClick={handleSend}
                 disabled={!input.trim() || isTyping}
-                className="absolute right-2 top-1/2 -translate-y-1/2 w-12 h-12 rounded-xl bg-accent text-primary flex items-center justify-center hover:scale-105 transition-transform disabled:opacity-50 disabled:scale-100"
+                className="absolute right-3 top-1/2 -translate-y-1/2 w-14 h-14 rounded-2xl bg-accent text-primary flex items-center justify-center hover:scale-105 active:scale-95 transition-all disabled:opacity-50 disabled:scale-100 shadow-xl neon-glow"
               >
-                <Send className="w-5 h-5" />
+                <Send className="w-6 h-6" />
               </button>
             </div>
-            <div className="mt-4 flex items-center justify-center gap-6 text-[10px] font-black uppercase tracking-widest text-white/20">
-              <span className="flex items-center gap-1"><Sparkles className="w-3 h-3" /> Real-time Data</span>
-              <span className="flex items-center gap-1"><Sparkles className="w-3 h-3" /> Expert Logic</span>
-              <span className="flex items-center gap-1"><Sparkles className="w-3 h-3" /> Personalized</span>
+            <div className="mt-8 flex flex-wrap items-center justify-center gap-x-10 gap-y-4 text-[9px] font-black uppercase tracking-[0.3em] text-white/10">
+              <span className="flex items-center gap-2"><Sparkles className="w-3 h-3 text-accent" /> REAL-TIME DATA</span>
+              <span className="flex items-center gap-2"><Sparkles className="w-3 h-3 text-accent" /> EXPERT LOGIC</span>
+              <span className="flex items-center gap-2"><Sparkles className="w-3 h-3 text-accent" /> PERSONALIZED</span>
             </div>
           </div>
         </div>

@@ -1,11 +1,10 @@
 import React from 'react';
 import { Navbar } from '@/src/components/Landing';
-import { Zap, BarChart3, Users, TrendingUp, ShieldCheck, Trophy, Link as LinkIcon } from 'lucide-react';
+import { Zap, BarChart3, Users, TrendingUp, ShieldCheck, Trophy, Link as LinkIcon, ArrowRight } from 'lucide-react';
 import { motion } from 'motion/react';
 import { Link } from 'react-router-dom';
 
 const tools = [
-  { id: 'draft', title: 'Draft Assistant', icon: <Users />, desc: 'Real-time suggestions based on your league scoring and roster needs.', premium: true, path: '/draft-assistant' },
   { id: 'trade', title: 'Trade Analyzer', icon: <BarChart3 />, desc: 'Analyze win probability and long-term impact of any trade.', premium: false, path: '/trade-analyzer' },
   { id: 'waiver', title: 'Waiver Finder', icon: <Zap />, desc: 'Identify high-upside players before they become mainstream.', premium: true, path: '/waiver-finder' },
   { id: 'start-sit', title: 'Start/Sit Optimizer', icon: <ShieldCheck />, desc: 'AI-driven projections based on 10,000+ game simulations.', premium: false, path: '/start-sit' },
@@ -27,18 +26,24 @@ const tools = [
 
 export default function ToolsPage() {
   return (
-    <div className="min-h-screen bg-primary">
+    <div className="min-h-screen bg-primary pt-32 pb-20 px-6 grid-bg">
       <Navbar />
       
-      <main className="pt-32 pb-20 px-6 max-w-7xl mx-auto">
-        <div className="text-center mb-16">
-          <h1 className="text-5xl font-display font-black tracking-tighter uppercase mb-4">
-            WINNING <span className="text-accent italic">TOOLS</span>
+      <main className="max-w-7xl mx-auto relative z-10">
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="mb-20"
+        >
+          <div className="text-accent text-xs font-black uppercase tracking-[0.3em] mb-4">Professional Suite</div>
+          <h1 className="text-5xl md:text-8xl font-display font-black tracking-tighter uppercase leading-[0.85] mb-8">
+            THE <span className="text-accent italic">ARSENAL</span>
           </h1>
-          <p className="text-white/50 max-w-2xl mx-auto">
-            The most advanced suite of fantasy football tools ever built. Powered by AI, used by champions.
+          <p className="text-white/40 max-w-2xl text-lg leading-relaxed">
+            Dominate your league with our comprehensive suite of AI-powered tools. 
+            From draft day to the championship, we've got you covered.
           </p>
-        </div>
+        </motion.div>
         
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {tools.map((tool, i) => (
@@ -50,19 +55,27 @@ export default function ToolsPage() {
               <motion.div 
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: i * 0.1 }}
-                className="h-full p-8 rounded-3xl bg-card border border-border group-hover:border-accent/50 transition-all relative overflow-hidden"
+                transition={{ delay: i * 0.05 }}
+                className="h-full p-10 rounded-[32px] bg-card border border-border group-hover:border-accent/30 transition-all duration-500 relative overflow-hidden flex flex-col justify-between"
               >
-                {tool.premium && (
-                  <div className="absolute top-4 right-4 px-2 py-1 bg-accent/20 text-accent text-[8px] font-black uppercase tracking-widest rounded">PRO</div>
-                )}
-                <div className="w-14 h-14 bg-white/5 rounded-2xl flex items-center justify-center mb-6 group-hover:bg-accent group-hover:text-primary transition-colors">
-                  {React.cloneElement(tool.icon as React.ReactElement<any>, { className: "w-7 h-7" })}
+                <div className="absolute top-0 right-0 w-32 h-32 bg-accent/5 rounded-full blur-3xl group-hover:bg-accent/10 transition-colors" />
+                
+                <div>
+                  <div className="flex items-center justify-between mb-8">
+                    <div className="w-16 h-16 bg-white/5 rounded-2xl flex items-center justify-center group-hover:bg-accent group-hover:text-primary transition-all duration-500 group-hover:rotate-6">
+                      {React.cloneElement(tool.icon as React.ReactElement<any>, { className: "w-8 h-8" })}
+                    </div>
+                    {tool.premium && (
+                      <div className="px-3 py-1 bg-accent/10 text-accent text-[10px] font-black uppercase tracking-widest rounded-lg border border-accent/20">PRO</div>
+                    )}
+                  </div>
+                  <h3 className="text-2xl font-display font-black uppercase tracking-tight mb-4 group-hover:text-accent transition-colors">{tool.title}</h3>
+                  <p className="text-white/40 text-sm leading-relaxed group-hover:text-white/60 transition-colors mb-8">{tool.desc}</p>
                 </div>
-                <h3 className="text-2xl font-bold mb-3">{tool.title}</h3>
-                <p className="text-white/50 text-sm leading-relaxed mb-8">{tool.desc}</p>
-                <div className="w-full py-3 rounded-xl bg-white/5 border border-white/10 text-xs font-black uppercase tracking-widest group-hover:bg-accent group-hover:text-primary group-hover:border-accent transition-all text-center">
-                  Launch Tool
+
+                <div className="flex items-center justify-between pt-8 border-t border-white/5">
+                  <span className="text-[10px] font-black uppercase tracking-widest text-accent">Launch Tool</span>
+                  <ArrowRight className="w-5 h-5 text-accent group-hover:translate-x-2 transition-transform" />
                 </div>
               </motion.div>
             </Link>

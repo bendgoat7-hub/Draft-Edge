@@ -3,13 +3,12 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import LandingPage from '@/src/pages/LandingPage';
 import DashboardPage from '@/src/pages/DashboardPage';
 import ToolsPage from '@/src/pages/ToolsPage';
 import ContentHub from '@/src/pages/ContentHub';
 import TradeAnalyzer from '@/src/pages/TradeAnalyzer';
-import DraftAssistant from '@/src/pages/DraftAssistant';
 import PlayerComparison from '@/src/pages/PlayerComparison';
 import WaiverFinder from '@/src/pages/WaiverFinder';
 import StartSitOptimizer from '@/src/pages/StartSitOptimizer';
@@ -24,7 +23,7 @@ import LeagueSync from '@/src/pages/LeagueSync';
 import AIChatAssistant from '@/src/pages/AIChatAssistant';
 import WeatherImpactMap from '@/src/pages/WeatherImpactMap';
 import RosterHealth from '@/src/pages/RosterHealth';
-import LiveDraftRoom from '@/src/pages/LiveDraftRoom';
+import MockDraftSimulator from '@/src/pages/MockDraftSimulator';
 import MarketValueTrends from '@/src/pages/MarketValueTrends';
 import { AuthProvider } from '@/src/contexts/AuthContext';
 import { LeagueProvider } from '@/src/contexts/LeagueContext';
@@ -39,7 +38,6 @@ export default function App() {
             <Route path="/dashboard" element={<DashboardPage />} />
             <Route path="/tools" element={<ToolsPage />} />
             <Route path="/trade-analyzer" element={<TradeAnalyzer />} />
-            <Route path="/draft-assistant" element={<DraftAssistant />} />
             <Route path="/player-comparison" element={<PlayerComparison />} />
             <Route path="/waiver-finder" element={<WaiverFinder />} />
             <Route path="/start-sit" element={<StartSitOptimizer />} />
@@ -54,9 +52,10 @@ export default function App() {
             <Route path="/ai-chat" element={<AIChatAssistant />} />
             <Route path="/weather" element={<WeatherImpactMap />} />
             <Route path="/roster-health" element={<RosterHealth />} />
-            <Route path="/draft-room" element={<LiveDraftRoom />} />
+            <Route path="/draft-room" element={<MockDraftSimulator />} />
             <Route path="/market-trends" element={<MarketValueTrends />} />
             <Route path="/content" element={<ContentHub />} />
+            <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
         </Router>
       </LeagueProvider>
